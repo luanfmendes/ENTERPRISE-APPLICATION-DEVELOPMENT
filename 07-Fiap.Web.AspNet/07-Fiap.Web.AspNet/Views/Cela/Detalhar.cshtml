@@ -1,0 +1,62 @@
+﻿@model DetalheCelaViewModel
+
+@{
+    ViewData["Title"] = "Detalhar";
+}
+
+<h2>Detalhar</h2>
+
+<p>Cela: <span class="text-danger">@Model.Cela.Nome</span></p>
+<p>Capacidade: <span class="text-danger">@Model.Cela.QuantidadeMaxima</span> Quantidade atual: <span class="text-danger">@Model.QuantidadePresidiarios</span></p>
+<p>Ocupação: <span class="text-danger">@Model.Ocupacao %</span></p>
+
+<div class="row">
+    @foreach (var item in Model.Presidiarios)
+    {
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">@item.Nome</h5>
+                    <p class="card-text">Data de entrada: @item.DataEntrada</p>
+                    <p class="card-text">Data de saída: @item.DataSaida</p>
+                    <p class="card-text">Nivel escolaridade: @item.NivelEscolaridade</p>
+                    <br />
+                    <p class="card-text">Saida Temporaria: @(item.SaidaTemporaria ? "Sim" : "Não")</p>
+
+                    <p>
+
+                        <button onclick="codigo.value = @item.PresidiarioId" type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalExemplo">
+                            Saida temporária
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+<!-- Botão para acionar modal -->
+<!-- Modal -->
+<div class="modal fade" id="modalExemplo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Saída Temporaria</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Deseja definir a saída temporária do meliante ?
+            </div>
+            <div class="modal-footer">
+                <form asp-controller="Presidiario" asp-action="DefinirSaida">
+                    <input type="hidden" id="codigo" name="codigo" />
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="submit" class="btn btn-light">Sim</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
